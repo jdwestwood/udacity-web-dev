@@ -1,9 +1,5 @@
 udacity-web-dev
-
-
 ===============
-
-
 
 Udacity CS253 web development coursework
 
