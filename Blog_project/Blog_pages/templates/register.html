@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>CS253 Blog</title>
+		<style>
+			body {
+				width: 1000px;
+				margin: 0px auto
+			}
+			h1 {
+				text-align: center;
+			}
+			.error {
+				color: red;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>CS253 Blog</h1>
+		<h2>Signup</h2>
+		<form method="post" action="/signup">
+			<table>
+				<tbody>
+					<tr>
+						<td>Username</td>
+						<td>
+							<input type="text" name="username" value="{{username}}">
+							<span class="error">{{error_username or ''}}</span>
+						</td>
+					</tr>
+					<tr>
+						<td>Password</td>
+						<td>
+							<input type="password" name="password" value="{{password}}">
+							<span class="error">{{error_password or ''}}</span>
+						</td>
+					</tr>
+					<tr>
+						<td>Verify Password</td>
+						<td>
+							<input type="password" name="verify" value="{{verify}}">
+							<span class="error">{{error_verify or ''}}</span>
+						</td>
+					</tr>
+					<tr>
+						<td>Email (optional)</td>
+						<td>
+							<input type="text" name="email" value="{{email}}">
+							<span class="error">{{error_email or ''}}</span>
+						</td>
+					</tr>
+				</tbody>
+			<table>
+			<br>
+			<input type="submit" value="Submit">
+		</form>
+	</body>
+<html>

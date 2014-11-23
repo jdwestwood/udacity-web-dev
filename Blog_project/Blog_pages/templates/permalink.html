@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>CS253 Blog</title>
+		<style>
+			body {
+				max-width: 800px;
+				margin: 0 auto;
+				word-wrap: break-word;
+			}
+			h1 {
+				text-align: center;
+			}
+			h2 {
+				margin-bottom: 4px;
+			}
+			.float_right {
+				display: inline;
+				font-size: 14px;
+				float: right;
+			}
+			.last-queried {
+				font-size: 12px;
+				text-align: right;
+			}
+
+		</style>
+	</head>
+	<body>
+		<h1>CS253 Blog</h1>
+		<div>
+			<h2>{{subject}}
+				<span class="float_right">{{date_time|fmt_datetime}}</span>
+			</h2>
+		</div>
+		<hr>
+		<div>{{content}}</div>
+		<div class="last-queried">Queried {{elapsed_time}} seconds ago</div>
+	</body>
+<html>

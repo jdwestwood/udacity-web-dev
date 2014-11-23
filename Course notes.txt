@@ -1,0 +1,273 @@
+Week 2:
+
+Python:  string substitution and triple quotes to enclosed a quoted string
+         (useful in constructing HTML strings), e.g.:
+    myString = """ABC %(varName)s DEF "quoted" inside"""
+    customString = myString % {"varName": "alphabet"}  # ABC alphabet DEF "quoted" inside
+
+Week 3:
+
+install Python REPL environment in SublimeText:
+  install Package Control from https:/sublime.wbond.net/installation
+  use Package Control to install SublimeREPL package
+  define a user setting for the REPL path to python (instructions at
+      http://sublimerepl.readthedocs.org/en/latest/)
+  add C:\Python27 to the Windows PATH variable using Computer-Settings-Advanced...-Environment...
+
+installed 'easy_install' by downloading and running ez_setup.py from
+  https://pypi.python.org/pypi/setuptools#windows
+used easy_install to install jinja2 (http://jinja.pocoo.org), which is a Python web templating tool
+  supported by Google App Engine; (during installation got message that C extensions could not
+  be compiled so speedups are not enabled...).
+
+Lecture material:
+
+Python:
+   'namedtuple' datatype - a database record-like Collections object, e.g.,
+     Point = namedtuple('Point',["lat","lon"]); can then write p = Point(23.2, -43-2); p.lat, p.lon.
+   use of *expression in function calls to convert 'expression' from an iterable to a tuple of arguments.
+     Can also use the * syntax in a function definition.
+   use of **expression in function calls to convert 'expression' from a mapping (key=value) to a list
+     of key=value arguments. Can also use the ** syntax in a function definition.
+   using dict(zip([tuple_list1.field],[tuple_list1])) to create an index into a list of records (tuples)
+      in Python. (dict is a hashtable).
+   using sqlite3 - an SQL database built into Python:
+      - use import sqlite3
+      - can create in-memory database for fooling around
+
+Databases:
+   joins (but not used very much on websites)
+   creating index into database vastly speeds queries on the indexed field
+   hashtable: not sorted, lookup in constant time
+   tree: sorted, lookup in log time
+
+Database scaling:
+   too much load --> replicate from master to slaves
+   too much data --> shard - divide the data between different databases
+                             issues: complex queries might span multiple machines
+                                     joins are difficult! (Google Datastore does not allow joins)
+
+ACID:
+   Atomicity - all parts of a transaction succeed or fail together
+   Consistency - the database will always be consistent
+   Isolation - no transaction can interfere with another
+   Durability - once a transaction is committed, it will not be lost
+
+Google App Engine:
+   entity <--> table
+     - columns are not fixed: two entities of the same type do not have to have the same columns
+     - always has an ID column
+     - notion of parent/ancestor
+   GQL <--> SQL
+     - all queries begin with 'Select *'
+     - no joins
+     - all queries must be indexed (unlike SQL)
+   Datastore is both sharded and replicated
+     - won't have to worry about scaling
+     - queries will be quick (because they will have to be simple)
+     - will have to think about consistency
+
+Jinja templating tool
+   {% python code %} to embed python code in HTML file
+   {{varName}} to embed the variable varName
+   <pre> tag preserves whitespace and renders in fixed width font (<pre>-formatted)
+   <hr> tag puts in a horizontal line to break between sections of a web page
+   in css: .cls + .cls {margin-top: 20px} will put 20 px top margin when .cls classes are sequential
+
+Databases:
+Relational (using SQL queries):
+Postgresql
+MySQL - most popular
+SQLite - for smaller db's
+
+GoogleAppEngine - Datastore (used a lot in the class)
+
+AWS - Dynamo (great paper online how it works - completely different approach than SQL-type
+
+NoSQL;
+Mongo
+Couch
+
+Web frameworks:
+   Django - uses python; high level - can manage sessions, forms; do a lot of things for you.
+   Ruby on Rails - very popular; similarly high level as Django.
+
+Week 4:
+
+Python:
+  using IPython in examples.
+  string.isdigit() to determine whether a string can safely be converted to an integer via int().
+  Hash H(x)=y take data x of any size and returns a value y which is a fixed-length string (32-256 bits
+     typically). Popular: crc32 fast but easy to generate collisions.
+                          md5 used a lot but not as secure as once thought.
+                          sha1 secur-ish.
+                          sha256 pretty secure.
+  import hashlib: implements a bunch of hash algorithms
+      use the .hexdigest method to get a hex string of the hash.
+  import hmac: HMAC = Hash-based Message Authentication Code; to incorporate a 'secret' into the value
+      that is being hashed so cookie cannot be forged by knowing the encryption algorithm.
+
+  use a, b = string.split(",") to assign string values from a comma-separated list, i.e.,
+      a = "a" and b = "b" from string = "a,b"
+  use bcrypt in the real world! Can tell it to run slowly to help thwart attackers!
+  also mentioned OAuth2 for authenticating via 3rd party websites (e.g., using Google or Facebook login).
+
+Cookies:
+  Browser limit: ~20 cookies/website; each cookie < 4k.; specific to a given website.
+  Store login info; small amounts of data to avoid db calls; tracking for ads.
+  Server sends cookie(s) 'Set-Cookie' header(s) in the HTTP response.
+  Browser returns a single 'Cookie' header containing all the cookies separated by semicolons.
+  Cookies are name=value pairs separated by semicolons.
+    Special names:
+       Domain=  controls which domain a browser sends a cookie to. Will send cookie to any domain whose
+                name ends in the value of Domain. A domain can only set a cookie for itself or its ancestors.
+       Expires= controls how long the browser keeps the cookie; if no Expires parameter, it is a session
+                cookie - it stops being sent when you close the browser.
+  Can use javascript in console: document.cookie to see cookies and change them!
+
+  In Linux, use 'curl -I www.google.com' to get the header only for google.com.
+
+Week 5:
+
+  hostip.info has API returning location of a given ip address.
+  Google Maps Static Maps API to draw a map with location markers (encoded in url)
+
+Python:
+  using 'import urllib2' library for making http requests.
+    opening a url returns a file-like object whose contents can be read via .read(). Contents are
+    the HTML response.
+  use dir(var) to see the methods associated with variable var.
+  using 'from xml.dom import minidom' to parse XML. (Limited to relatively small files). Returns a
+    document object that can be manipulated by DOM methods such as .getElementByTagName and .nodeValue
+  using 'import json' to parse JSON.
+    .loads(string) loads a JSON string and returns a dictionary representing the JSON object
+    JSON is valid Python, so can eval(JSON_string), but never do that!
+    .dumps(obj) converts obj to a JSON string. Quotes must be escaped (\") in the JSON string, and the
+      escape must be escaped in a Python string representing the JSON string (\\"). JSON can only use 
+      double quotes; .dumps converts single quotes to double quotes.
+  using repr(string) to return a Python-printable representation of a string. Useful when you want to write text
+    directly to a webpage for debugging. Will put extra quotes around the object so any angle brackets in
+    a string will print to the page instead of being interpreted as HTML.
+  using filter() to filter members of an iterable based on specified criteria.
+  using '&'.join(string-list) to join a list of strings together with '&' in between for composing a url query
+
+Google App Engine:
+  use memcache.set("key", value) for temporary storage, where value can be almost anything.
+
+Making requests to other servers:
+  XML:
+    every tag must have a closing tag. (unlike HTML which has tags like <input> or <br> with no closing tags)
+
+  RSS document is a type of XML document with a specific namespace of tags.
+    first line of the file starts with a <rss ....  > tag.
+    an RSS reader can load an RSS document describing, e.g., news stories on the NYT website, to avoid
+    parsing the site's HTML content to get the same info.
+    can parse RSS feeds for information to use on your website.
+
+  JSON: Javascript Object Notation
+    in Python-speak, JSON object can be:
+      a dictionary with key-value pairs (syntax similar to Python dict) {"key": value}
+      or a list [item1, item2, ....] (syntax like Python, including an empty list []).
+    can have nested JSON objects, (list within a dict, dict within a list, etc.)
+    can express anything in JSON that can express in XML.
+    permissible data types: int, string, bool, float.
+
+    a lot of websites will send their pages in xml or json by url's ending in .xml or .json, e.g., Reddit, Twitter
+
+  Other protocols - will not cover:
+
+    SOAP: complicated XML-type protocol (like HTTP + JSON in scope) (Microsoft)
+    Protocol buffers (like JSON in scope) (Google)
+    Thrift (like JSON in scope) (Facebook)
+  Being a good citizen on the Internet:
+    - put a 'user-agent' in your header so the site knows who you are.
+    - rate-limit your requests: use Python time.sleep(1), e.g., to sleep 1 second between requests.
+
+
+HW 5 help:
+  Security topics:
+  XSS = cross site scripting; in general escape content that comes from 3rd party sites to avoid malicious tag,
+    specifically the <script> tag injection.
+  SQL injection: can occur when assign SQL query variables from parameters derived from, e.g., form submission         url's.  Variable strings could contain malicious SQL, e.g., instructions to drop a table or delete rows.
+  SQLAlchemy recommended as a library for building SQL queries using a procedural language.
+  memcache injection: fiddle with the "key" value to finish the memcache statement and insert additional code
+    afterward. Validate keys derived from url's!
+  CSRF - based on submitting a hidden form; sol'n is to have a secret associated with your forms.
+
+Week 6:
+
+  Python - Google App Engine
+    use 'from google.appengine.api import memcache' to use memcached cache.
+      Google memcache survives restarts.
+      app is now 'Stateless'; no dependence on state of the app.
+      app being stateless is key to being able to scale the website
+
+    use DEBUG = os.environ['SERVER_SOFTWARE'].startswith('Development') to set DEBUG variable for Python logging.
+       logging.debug('...') output will be written to console only in Development mode (DEBUG = True).
+
+  Scaling websites:
+
+    - optimize code
+    - cache complex operations
+    - upgrade machines: more memory, more disk space, faster CPU.
+    - add more machines
+
+  caching - store result of an operation so that future requests return faster.
+  when to cache:
+    - computation is slow.
+    - computation will run multiple times.
+    - output is always the same for a particular input.
+    - when hosting provider charges for each access (database queries, e.g.).
+
+  cache is generally a hashtable (like a dict).
+  avoid cache stampede: do not clear cache entries, replace them. That avoids multiple db reads when multiple
+    users request the page load during the time the cache is empty.
+  can avoid db reads altogether by updating cache every time write to db.
+
+  scaling app servers:
+    use load balancer in front of servers - random
+
+  memcached - fast in-memory cache; single cache can be accessed by multiple servers.
+    set(key, value) both key and values are strings; Google App Engine memcache implementation will convert
+    get(key) --> value     non-string 'value' back and forth to string values for memcached; 'value' must be
+    delete(key)            able to be pickled.
+    gets(key) -- value, unique  also returns a 'unique' variable which indicates a state of the value; 'unique'
+                 changes when changes are made to value.
+    cas(key, value, unique) 'cas' = check and set; checks that the memcache 'unique' variable matched the 'unique'
+                           value passed in the function call. If matches, set the key to the value and return 
+                           True; if not do nothing and return False.
+
+    automatically throws away the least recently used (LRU cache) keys when memory is full.
+
+  'varnish' and 'squid' are tools for caching HTML response content that can operate in front of your web
+    servers for caching basic pages on your site to reduce the load on your app servers.
+
+Week 7:
+
+Hosting:
+   Google App Engine, Heroku - no system admin, everything done for you
+   AWS - some system admin, more customizable
+
+Web framework:
+   Google - webapp2 nice level of abstraction
+              direct GET/POST
+              access to request and headers
+
+   do not like: sessions, caching, forms, DB-ORM - not close enough to what is actually going on
+
+   templates - like Mako
+
+   Static content - stored on Amazon S3 - storage service; key-value pairs.
+   NGINX is a webserver used to serve static content.
+   Cassandra - distributed noSQL database with automatic sharding; used for storing pre-computed webpages.
+   Hadoop - a map-reduce engine for extracting summary information from huge amount of data; such as the
+            top links of the hour on a news aggregation site.
+
+Social aspects:
+   Fake users at the beginning submitting content (all by two people); made it feel alive from the beginning.
+   Simplest and easiest possible user interaction - did not collect email addresses.
+   No censoring of content.
+   No spam <a rel="nofollow" ...> tells search engine not to follow the link.
+   Do not let spammers know they are caught - show their content to them but no one else!
+
+   Google App Engine - different versions of a site access the same Datastore; allows A/B testing.

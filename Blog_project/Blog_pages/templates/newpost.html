@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>CS253 Blog</title>
+		<style>
+			h1 {
+				text-align: center;
+			}
+			.error {
+				color: red;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>CS253 Blog</h1>
+		<h2>New post</h2>
+		<form method="post" action="/newpost">
+			<label>
+				<div>Subject:</div>
+				<input type="text" name="subject" value="{{subject}}">
+			</label>
+			<label>
+				<div><br>Entry:</div>
+				<textarea name="content" style="width: 600px; height: 200px;">{{content}}</textarea>
+			</label>
+			<div class="error">{{error}}<br></div>
+			<input type="submit" value="Submit">
+		</form>
+	</body>
+<html>

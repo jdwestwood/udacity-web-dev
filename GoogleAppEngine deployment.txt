@@ -1,0 +1,12 @@
+11/23/2014:  The 'Deploy' button in the GAE Launcher asks for user name / password.
+             Google App Engine uses two-factor authentication, so this method fails
+             with an invalid password error.  The fix is to use appcfg.py from a
+             Windows command prompt with the --oauth2 flag.
+
+See:  https://cloud.google.com/appengine/docs/python/tools/uploadinganapp
+
+1. Open a command prompt window.
+
+2. cd \python27
+
+3. python "C:\Program Files (x86)\Google\google_appengine\appcfg.py" --oauth2 update "C:\Udacity\Web_dev\Blog_project\Blog_pages\app.yaml"
